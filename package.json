@@ -1,0 +1,9 @@
+{
+  "name": "window-porter",
+  "version": "0.3.0",
+  "private": true,
+  "description": "Portable local-only browser window snapshots",
+  "scripts": {
+    "test": "node tests/core.test.js && node --check core.js && node --check background.js && node --check popup.js && node --check blocked.js"
+  }
+}

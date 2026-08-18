@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://windowporter.local/schemas/wps-v1.schema.json",
+  "title": "Window Porter Session v1",
+  "type": "object",
+  "required": ["format", "formatVersion", "createdAt", "windows"],
+  "properties": {
+    "format": { "const": "windowporter" },
+    "formatVersion": { "const": 1 },
+    "createdAt": { "type": "string" },
+    "name": { "type": "string" },
+    "scope": { "enum": ["current-window", "all-windows"] },
+    "privacyClean": { "type": "boolean" },
+    "generator": { "type": "object" },
+    "windows": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["groups", "tabs"],
+        "properties": {
+          "ordinal": { "type": "integer", "minimum": 0 },
+          "state": { "type": "string" },
+          "focused": { "type": "boolean" },
+          "incognito": { "type": "boolean" },
+          "bounds": {
+            "type": ["object", "null"],
+            "properties": {
+              "left": { "type": ["integer", "null"] },
+              "top": { "type": ["integer", "null"] },
+              "width": { "type": ["integer", "null"] },
+              "height": { "type": ["integer", "null"] }
+            }
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["id", "title", "color", "collapsed"],
+              "properties": {
+                "id": { "type": "string", "minLength": 1 },
+                "title": { "type": "string" },
+                "color": { "type": "string" },
+                "collapsed": { "type": "boolean" },
+                "firstPosition": { "type": "integer", "minimum": 0 }
+              }
+            }
+          },
+          "tabs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["position", "url", "pinned", "active", "group"],
+              "properties": {
+                "position": { "type": "integer", "minimum": 0 },
+                "url": { "type": "string", "minLength": 1 },
+                "title": { "type": "string" },
+                "pinned": { "type": "boolean" },
+                "active": { "type": "boolean" },
+                "muted": { "type": "boolean" },
+                "group": { "type": ["string", "null"] }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

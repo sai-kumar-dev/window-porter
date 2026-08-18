@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Window Porter — URL could not be restored</title>
+<style>
+  :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+  body { max-width: 760px; margin: 70px auto; padding: 0 24px; line-height: 1.5; }
+  .card { border: 1px solid color-mix(in srgb, CanvasText 15%, transparent); border-radius: 16px; padding: 24px; }
+  code { display: block; padding: 12px; border-radius: 8px; background: color-mix(in srgb, CanvasText 7%, Canvas); overflow-wrap: anywhere; white-space: normal; }
+  a { display: inline-block; margin-top: 16px; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>URL preserved, but the browser blocked automatic restore</h1>
+  <p>This commonly happens with browser-internal pages or URLs owned by another extension. Your original URL is preserved below.</p>
+  <code id="url"></code>
+  <a id="link" href="#">Try opening the original URL</a>
+</div>
+<script src="blocked.js"></script>
+</body>
+</html>

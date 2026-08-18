@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Window Porter</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="top">
+    <div>
+      <h1>Window Porter <small>v0.3</small></h1>
+      <p id="currentSummary">Reading current window…</p>
+    </div>
+    <span class="local-pill">LOCAL</span>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>Save</h2>
+      <label class="field">
+        <span>Session name</span>
+        <input id="sessionName" maxlength="100" placeholder="e.g. AI Research">
+      </label>
+
+      <div class="radio-row" role="radiogroup" aria-label="Save scope">
+        <label><input type="radio" name="scope" value="current-window" checked> Current window</label>
+        <label><input type="radio" name="scope" value="all-windows"> All windows</label>
+      </div>
+
+      <label class="feature-toggle">
+        <span>
+          <strong>Choose groups / tabs</strong>
+          <small>Off = save everything in the selected scope</small>
+        </span>
+        <input id="customSelection" type="checkbox" class="switch">
+      </label>
+
+      <div id="selectionPanel" class="selection-panel hidden">
+        <div class="selection-toolbar">
+          <strong id="selectionCount">0 selected</strong>
+          <span>
+            <button id="selectAll" class="mini" type="button">All</button>
+            <button id="clearAll" class="mini" type="button">None</button>
+            <button id="toggleDetails" class="mini" type="button">Collapse</button>
+          </span>
+        </div>
+        <div id="selectionTree" class="selection-tree"></div>
+      </div>
+
+      <div class="checks">
+        <label><input id="includeTxt" type="checkbox" checked> TXT fallback</label>
+        <label><input id="includeHtml" type="checkbox" checked> HTML index</label>
+        <label title="Removes common analytics and token-like query parameters. Exact URL export is the default.">
+          <input id="privacyClean" type="checkbox"> Privacy-clean URLs
+        </label>
+      </div>
+
+      <button id="saveButton" class="primary">Save session</button>
+      <p class="hint">JSON always included. Shortcut saves the whole current window: <strong>Ctrl+Shift+9</strong>.</p>
+    </section>
+
+    <section class="card">
+      <h2>Restore</h2>
+      <label class="file-drop" for="sessionFile">
+        <strong>Choose a .wps.json or .txt file</strong>
+        <span id="fileSummary">Nothing selected</span>
+        <input id="sessionFile" type="file" accept=".json,.txt,application/json,text/plain">
+      </label>
+
+      <div class="radio-stack" role="radiogroup" aria-label="Restore mode">
+        <label><input type="radio" name="restoreMode" value="new-window" checked> New window</label>
+        <label><input type="radio" name="restoreMode" value="append-current"> Append to current window</label>
+        <label><input type="radio" name="restoreMode" value="replace-current"> Replace current window</label>
+      </div>
+
+      <div class="checks vertical">
+        <label><input id="skipDuplicates" type="checkbox"> Skip URLs already open <span class="muted">(append/replace)</span></label>
+        <label><input id="restoreGeometry" type="checkbox"> Restore saved window size/position <span class="muted">(same-display setups)</span></label>
+      </div>
+
+      <button id="restoreButton" class="secondary" disabled>Restore session</button>
+    </section>
+
+    <section id="statusBox" class="status hidden" aria-live="polite"></section>
+  </main>
+
+  <footer>No cloud · No telemetry · No page-content access</footer>
+  <script src="core.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
