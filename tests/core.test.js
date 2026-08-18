@@ -64,4 +64,22 @@ assert.strictEqual(meta.tabs, 3);
 assert.strictEqual(meta.groups, 1);
 assert.strictEqual(meta.pinned, 1);
 
+// HTML escaping tests
+const malicious = {
+  format: "windowporter", formatVersion: 1, createdAt: new Date().toISOString(), name: "Malicious", generator: {name: "Test", version: "0", platform: "test"},
+  windows: [{ordinal: 0, state: "normal", focused: true, incognito: false, bounds: null, groups: [], tabs: [
+    {position: 0, url: "https://bad.com/<script>alert(1)</script>", title: "<script>alert(1)</script> & \" '", pinned: false, active: true, muted: false, group: null}
+  ]}]
+};
+const html = WP_CORE.toHtml(malicious);
+assert.ok(!html.includes("<script>alert(1)</script>"));
+assert.ok(html.includes("&lt;script&gt;alert(1)&lt;/script&gt;"));
+assert.ok(html.includes("&amp; &quot; &#039;"));
+
+// Invalid fixture tests
+assert.strictEqual(WP_CORE.validateSession(null).ok, false);
+assert.strictEqual(WP_CORE.validateSession({ format: "windowporter" }).ok, false); // missing formatVersion
+assert.strictEqual(WP_CORE.validateSession({ format: "windowporter", formatVersion: 2, windows: [] }).ok, false); // unsupported version
+assert.strictEqual(WP_CORE.validateSession({ format: "windowporter", formatVersion: 1, windows: [{ tabs: [] }] }).ok, false); // missing ordinal
+
 console.log("Window Porter core tests: PASS");
