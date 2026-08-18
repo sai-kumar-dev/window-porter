@@ -17,7 +17,8 @@ jobs:
           python-version: '3.12'
       - run: npm test
       - name: Validate JSON
-        run: python - <<'PY'
+        run: |
+          python - <<'PY'
           import json
           from pathlib import Path
           for p in [Path('manifest.json'), *Path('manifests').glob('*.json'), Path('schemas/wps-v1.schema.json')]:
